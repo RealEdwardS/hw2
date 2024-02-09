@@ -13,19 +13,40 @@
 template <typename T>
 std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
 {
+    std::set<T> result;
+    //if (s1.size() >= s2.size()){
 
+    typename std::set<T>::iterator it1;
 
+    // Loop through set 1, and see if it exists in set 2, if not, insert into result
+    // Should be n * log(n) since find is log(n);
+    for (it1 = s1.begin(); it1 != s1.end(); ++it1){
+        if (s2.find(*it1) != s2.end()){
+            result.insert(*it1);
+        }
+    }
+    //}
 
-
+    return result; 
 
 }
 template <typename T>
 std::set<T> setUnion(std::set<T>& s1, std::set<T>& s2)
 {
+    std::set<T> result;
+    typename std::set<T>::iterator it1;
+    typename std::set<T>::iterator it2;
 
 
+    for (it1 = s1.begin(); it1 != s1.end(); ++it1){
+        result.insert(*it1); 
+    }
 
+    for (it2 = s2.begin(); it2 != s2.end(); ++it2){
+        result.insert(*it2); 
+    }
 
+    return result;
 
 }
 

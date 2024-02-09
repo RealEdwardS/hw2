@@ -1,0 +1,70 @@
+Keywords - Your system must build an index mapping keywords to the set of products that match that keyword. A product should match a keyword if it appears in the product name or one of the following attributes below (dependent on specific type of product):
+
+Books: the words in the author’s name should be searchable keywords as well as the book’s ISBN number
+
+Clothing: the words in the brand should be searchable keywords
+
+Movie: the movie’s genre should be a searchable keyword
+
+For the product name, book author, and clothing brand we define a keyword to be any string of 2 or more characters. If such a word has punctuation it should be split at each punctuation character and the resulting substrings (of 2 or more characters) should be used as keywords. Here are some examples:
+
+Men's should yield just a keyword of Men
+
+J. would not yield any keyword since the remaining substring J is only 1 character
+
+I'll would yield just ll since that substring is 2 or more characters (this is obviously a poor keyword but we’ll follow this rule for simplicity)
+
+For other keywords (book ISBN and movie genre) no punctuation or size analysis is necessary and it should be used verbatim as a keyword. Here is an example:
+The ISBN 978-000000000-1 should be used exactly as is for the keyword entry
+
+It is suggested you store your keywords in a common case so that searching is easy and case-insensitive
+
+
+
+    // while (ss >> currWord){
+    //     // If word length is less than 1
+    //     if (currWord.length() <= 1){
+    //         continue;
+    //     }
+
+    //     // Loops through each punc
+    //     for (int i = 0; i < punc.size(); ++i){
+    //         std::string currPunc = punc.at(i);
+            
+    //         int foundIndex = currWord.find(currPunc); 
+
+    //         // If punc was fonund 
+    //         if (foundIndex != std::string::npos){
+
+
+    //             std::string firstHalf = currWord.substr(0,foundIndex); 
+
+    //              // If firstHalf's length is >= 2, assign currWord to second half and rerun this loop again
+    //             if (firstHalf.length() >= 2){
+    //                 currWord = firstHalf;
+    //                 i = 0; 
+    //                 continue; 
+    //             }
+
+    //             // If punc isn't at last index
+    //             if (foundIndex < currWord.length()-1){
+
+    //                 // Assign second half to currWord; 
+    //                 std::string secondHalf = currWord.substr(foundIndex, currWord.length()-1);
+
+    //                 // If secondHalf's length is >= 2, assign currWord to second half and rerun this loop again
+    //                 if (secondHalf.length() >= 2){
+    //                     currWord = secondHalf;
+    //                     i = 0; 
+    //                     continue; 
+    //                 }
+    //             }
+
+    //             if (firstHalf.length() >= 2){
+    //                 result.insert(firstHalf);
+    //             }
+    //         }
+    //     }
+
+    //     result.insert(currWord);
+    // }

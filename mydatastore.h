@@ -45,6 +45,7 @@ class MyDataStore : public DataStore{
         
         std::deque<Product*> getUserCart(std::string username);
         User* getUser(std::string username); 
+        void addItem(User* currUser, Product* currItem);
 
         void deleteAll();
     

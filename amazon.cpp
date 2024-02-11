@@ -126,19 +126,18 @@ int main(int argc, char* argv[])
                     else if (ss >> searchHitHumber){
                         // If the search number is invalid
                         if (searchHitHumber <= 0 || searchHitHumber > hits.size()){
-                            cout << "Invalid request"; 
+                            cout << "Invalid request 2"; 
                         }
 
-                        else{
-                            deque<Product*> currUserCart = ds.getUserCart(username); 
+                        else{ 
                             Product* wantedItem = hits.at(searchHitHumber-1);
-                            currUserCart.push_back(wantedItem); 
+                            ds.addItem(currUser, wantedItem); 
                         }
                     }
 
                     // If not found search number
                     else{
-                        cout << "Invalid request" << endl; 
+                        cout << "Invalid request 3" << endl; 
                     }
                 }
 
@@ -149,6 +148,7 @@ int main(int argc, char* argv[])
             }
 
             else if ( cmd == "VIEWCART"){
+                
                 string username;
                 if (ss >> username){
                     User* currUser = ds.getUser(username); 
@@ -159,9 +159,11 @@ int main(int argc, char* argv[])
 
                     else{
                         deque<Product*> currUserCart = ds.getUserCart(username); 
-                        vector<Product*> result; 
+                        // cout << to_string(currUserCart.size()) << endl; 
+                        vector<Product*> result;
                         for (int i = 0; i < currUserCart.size(); ++i){
-                            result.push_back(currUserCart.at(i)); 
+                            result.push_back(currUserCart.back()); 
+                            currUserCart.pop_back(); 
                         } 
 
                         displayProducts(result); 

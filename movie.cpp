@@ -51,6 +51,6 @@ os << category_ << "\n" << name_ << "\n" << price_ << "\n" << qty_ << endl;
 Reproduce the database file from the current Products and User values
 */
 void MovieProduct::dump(std::ostream& os) const{
-    os << this->category_ << "\n" << this->name_ << "\n" << std::setprecision(2) << this->price_ << "\n" << this->qty_ << "\n" << this->genre_ << "\n" << this->rating_ << "\n";
+    os << this->category_ << "\n" << std::setw(10) << this->name_ << "\n" << std::fixed << std::setprecision(2) << this->price_ << "\n" << this->qty_ << "\n" << this->genre_ << "\n" << this->rating_ << "\n";
 }
 

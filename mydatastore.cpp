@@ -158,6 +158,16 @@ void MyDataStore::dump(std::ostream& ofile){
     ofile << "</users>\n";
 }
 
+void MyDataStore::addItem(User* currUser, Product* currItem){
+    std::set<User*>::iterator userIt = users.find(currUser);
+    if (userIt == users.end()){
+        throw "Cannot find user"; 
+    }
+
+    std::deque<Product*>* currCart = &(carts[*userIt]); 
+    currCart->push_back(currItem); 
+}
+
 
 
 void MyDataStore::deleteAll(){

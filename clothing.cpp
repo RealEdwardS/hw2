@@ -1,4 +1,3 @@
-
 #include "clothing.h"
 
 

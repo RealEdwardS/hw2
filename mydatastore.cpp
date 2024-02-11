@@ -2,7 +2,10 @@
 
 // Dtor
 MyDataStore::~MyDataStore(){
-
+    // std::map<User*, std::deque<Product*>>::iterator it; 
+    // for (it = carts.begin(); it != carts.end(); ++it){
+    //     delete (it)->second; 
+    // }
 }
 
 /**
@@ -26,6 +29,8 @@ void MyDataStore::addProduct(Product* p){
 */
 void MyDataStore::addUser(User* u){
     users.insert(u);
+    std::deque<Product*> userCart;
+    carts[u] = userCart;
 }
 
 /**
@@ -41,7 +46,6 @@ std::vector<Product*> MyDataStore::search(std::vector<std::string>& terms, int t
     for (int i = 0; i < terms.size(); ++i){
         std::map<std::string, std::set<Product*>>::iterator it = mapOfKeywords.find(terms.at(i));
         dequeOfProducts.push_back(it->second);
-
     }
     
     // Intersection
@@ -82,6 +86,50 @@ std::vector<Product*> MyDataStore::search(std::vector<std::string>& terms, int t
     }
     
     return finalResult;
+}
+
+User* MyDataStore::getUser(std::string username){
+    std::set<User*>::iterator it;
+    User* wantedUser; 
+
+    bool foundName = false;
+    for (it = users.begin(); it != users.end(); ++it){
+        if ((*it)->getName() == username){
+            wantedUser = *it;
+            foundName = true; 
+            break;
+        }
+    }
+
+    if (foundName == false){
+        return nullptr; 
+    }
+
+    return wantedUser; 
+} 
+std::deque<Product*> MyDataStore::getUserCart(std::string username){
+    // std::set<User*>::iterator it;
+    // User* wantedUser; 
+
+    // bool foundName = false;
+    // for (it = users.begin(); it != users.end(); ++it){
+    //     if ((*it)->getName() == username){
+    //         wantedUser = *it;
+    //         foundName = true; 
+    //         break;
+    //     }
+    // }
+
+    // if (foundName == false){
+    //     throw "Invalid request"; 
+    // }
+
+    User* wantedUser = getUser(username); 
+
+    std::map<User*, std::deque<Product*>>::iterator secondIt = carts.find(wantedUser);
+    std::deque<Product*> userCart = secondIt->second; 
+
+    return userCart; 
 }
 
 /**

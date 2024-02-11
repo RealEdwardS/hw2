@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <deque>
+#include <utility>
 #include "datastore.h"
 #include "util.h"
 #include "product.h"
@@ -41,12 +42,18 @@ class MyDataStore : public DataStore{
          * Reproduce the database file from the current Products and User values
          */
         void dump(std::ostream& ofile);
+        
+        std::deque<Product*> getUserCart(std::string username);
+        User* getUser(std::string username);  
     
-    public:
+    private:
         std::set<Product*> items;
         std::set<User*> users; 
 
         // keyword <-> set of products
         std::map<std::string, std::set<Product*>> mapOfKeywords;
+        
+        // map of User <-> set of their product/cart
+        std::map<User*, std::deque<Product*>> carts; 
 };
 #endif

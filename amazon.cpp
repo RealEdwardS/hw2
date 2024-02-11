@@ -111,18 +111,34 @@ int main(int argc, char* argv[])
                 string username;
                 int searchHitHumber;
                 if (ss >> username){
-                    if (ss >> searchHitHumber){
+                    User* currUser = ds.getUser(username);
+
+                    // If cannot find user
+                    if (currUser == nullptr){
+                        cout << "Invalid request" << endl; 
+                    }
+
+                    // If found searchNumber
+                    else if (ss >> searchHitHumber){
                         // If the search number is invalid
                         if (searchHitHumber < 0 || searchHitHumber >= hits.size()){
-                            cout << "Invalid request" << endl;
+                            cout << "Invalid request"; 
                         }
 
                         else{
-                            
+                            deque<Product*> currUserCart = ds.getUserCart(username); 
+                            Product* wantedItem = hits.at(searchHitHumber);
+                            currUserCart.push_back(wantedItem); 
                         }
+                    }
+
+                    // If not found search number
+                    else{
+                        cout << "Invalid request" << endl; 
                     }
                 }
 
+                // If not found username
                 else{
                     cout << "Invalid request" << endl;
                 }
@@ -131,12 +147,57 @@ int main(int argc, char* argv[])
             else if ( cmd == "VIEWCART"){
                 string username;
                 if (ss >> username){
+                    User* currUser = ds.getUser(username); 
+                    // If cannot find username
+                    if (currUser == nullptr){
+                        cout << "Invalid username" << endl; 
+                    }
 
+                    else{
+                        deque<Product*> currUserCart = ds.getUserCart(username); 
+                        vector<Product*> result; 
+                        for (int i = 0; i < currUserCart.size(); ++i){
+                            result.push_back(currUserCart.at(i)); 
+                        } 
+
+                        displayProducts(result); 
+                    }
+                }
+                
+                // If cannot get input
+                else{
+                    cout << "Invalid username"; 
                 }
             }
 
             else if ( cmd == "BUYCART"){
+                string username;
+                if (ss >> username){
+                    User* currUser = ds.getUser(username);
+                    // If cannot find username
+                    if (currUser == nullptr){
+                        cout << "Invalid username" << endl;
+                    }
+                    
+                    else{
+                        deque<Product*> currUserCart = ds.getUserCart(username);
+                        double totalPrice = 0; 
 
+                        // Go through cart
+                        for (int i = 0; i < currUserCart.size(); ++i){
+                            // If balance is good, remove money from person, subtract product qty, and pop from cart 
+                            if (totalPrice + (currUserCart.front())->getPrice() <= currUser->getBalance()){
+                                currUser->deductAmount((currUserCart.front())->getPrice());
+                                currUserCart.front()->subtractQty(1);
+                                currUserCart.pop_front(); 
+                            }
+                        }
+                    }
+                }
+
+                else{
+                    cout << "Invalid request" << endl; 
+                }
             }
 
             else {

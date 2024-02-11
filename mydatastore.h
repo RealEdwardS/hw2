@@ -2,19 +2,26 @@
 #define MYDATASTORE_H
 #include <set>
 #include <vector>
+#include <map>
+#include <deque>
 #include "datastore.h"
 #include "util.h"
 #include "product.h"
 #include "user.h"
+#include "book.h"
 
 
 class MyDataStore : public DataStore{
     public:
+
+        // Ctor
+        // MyDataStore();
+
         // Dtor
         ~MyDataStore();
 
         /**
-        * Adds a user to the data store
+        * Adds a product to the data store
         */ 
         void addProduct(Product* p); 
 
@@ -35,8 +42,11 @@ class MyDataStore : public DataStore{
          */
         void dump(std::ostream& ofile);
     
-    private:
+    public:
         std::set<Product*> items;
         std::set<User*> users; 
+
+        // keyword <-> set of products
+        std::map<std::string, std::set<Product*>> mapOfKeywords;
 };
 #endif

@@ -1,0 +1,45 @@
+    /*else if (type == 1){
+        // While deque is greater than 1
+                while (dequeOfProducts.size() > 1){
+            std::set<Product*> result;
+            // Assign result to front
+            result = dequeOfProducts.front();
+
+            // Remove front; 
+            dequeOfProducts.pop_front(); 
+
+            // Result (currently holding the previous front) is assigned to intersection of prev front and curr front
+            result = setUnion(result, dequeOfProducts.front());
+
+            // Remove curr front (second item)
+            dequeOfProducts.pop_front();
+
+            // Push front result into deque
+            dequeOfProducts.push_front(result); 
+        }
+        // Result should be union of all products
+    }*/
+
+    
+
+
+    // for each term, if a product has that term, put it in a set
+    // for next term, if a product has that term, put it in that set
+    // intersect 
+
+    // for (int termsIterator = 0; termsIterator < terms.size(); ++termsIterator){
+    //     std::set<Product*>::iterator productIterator;
+    //     for (productIterator = items.begin(); productIterator != items.end(); ++productIterator){
+    //         std::set<std::string>::iterator findIterator = (*productIterator)->keywords().find(terms.at(termsIterator));
+    //         if (findIterator != (*productIterator)->keywords().end()){
+                
+    //         }
+    //     }
+    // }
+
+
+    Hi! Just a quick note to prevent students from confusion. 
+
+In your View Cart function, please use DisplayString and do not start your line with smth like 
+"1:"... b/c this will cause the test parsing code to skip through your Cart, 
+giving a result of an empty cart even though locally the Cart is printed correctly. Good luck!

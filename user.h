@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <deque>
+#include "product.h"
 
 /**
  * Implements User functionality and information storage

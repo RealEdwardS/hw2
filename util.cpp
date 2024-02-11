@@ -3,6 +3,7 @@
 #include <cctype>
 #include <algorithm>
 #include <deque>
+#include <vector>
 #include "util.h"
 
 using namespace std;

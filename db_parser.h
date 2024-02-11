@@ -7,6 +7,7 @@
 #include "product.h"
 #include "user.h"
 #include "product_parser.h"
+#include "util.h"
 
 /**
  * Interface for all section parsers_

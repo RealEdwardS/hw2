@@ -5,11 +5,13 @@
 #include <vector>
 #include <iomanip>
 #include <algorithm>
-#include "product.h"
+#include "user.h"
 #include "db_parser.h"
+#include "product.h"
 #include "product_parser.h"
 #include "util.h"
 #include "mydatastore.h"
+
 // #include "book.h"
 // #include "clothing.h"
 // #include "movie.h"

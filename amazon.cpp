@@ -103,6 +103,10 @@ int main(int argc, char* argv[])
                     ds.dump(ofile);
                     ofile.close();
                 }
+                ds.deleteAll();
+                // Delete parsers
+                // delete userSectionParser;
+                // delete productSectionParser; 
                 done = true;
             }
 	    /* Add support for other commands here */
@@ -206,6 +210,8 @@ int main(int argc, char* argv[])
         }
 
     }
+
+    // ds.deleteAll();
     return 0;
 }
 

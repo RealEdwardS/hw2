@@ -19,8 +19,11 @@ void MyDataStore::addProduct(Product* p){
     items.insert(p);
     std::set<std::string>::iterator it; 
     // For each keyword of product p, it creates a pair in map with keyword and p as second val
-    for (it = p->keywords().begin(); it != p->keywords().end(); ++it){
-        mapOfKeywords[(*it)].insert(p);
+    std::set<std::string> currKeywords = p->keywords(); 
+    for (it = currKeywords.begin(); it != currKeywords.end(); ++it){
+        mapOfKeywords[(*it)];
+        // std::map<std::string, std::set<Product*>> mapIt; 
+        mapOfKeywords[(*it)].insert(p); 
     }
 }
 
@@ -155,6 +158,8 @@ void MyDataStore::dump(std::ostream& ofile){
 
 
 void MyDataStore::deleteAll(){
+    mapOfKeywords.clear();
+    carts.clear();
     std::set<Product*>::iterator itemIterator; 
     for (itemIterator = items.begin(); itemIterator != items.end(); ++itemIterator){
         delete *(itemIterator); 

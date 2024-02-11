@@ -149,5 +149,19 @@ void MyDataStore::dump(std::ostream& ofile){
         (*userIterator)->dump(ofile); 
     }
 
-    ofile << "<users>\n";
+    ofile << "</users>\n";
+}
+
+
+
+void MyDataStore::deleteAll(){
+    std::set<Product*>::iterator itemIterator; 
+    for (itemIterator = items.begin(); itemIterator != items.end(); ++itemIterator){
+        delete *(itemIterator); 
+    }
+
+    // std::set<User*>::iterator userIterator;
+    // for (userIterator = users.begin(); userIterator != users.end(); ++userIterator){
+    //     delete *(userIterator);
+    // }
 }

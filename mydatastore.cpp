@@ -136,5 +136,18 @@ std::deque<Product*> MyDataStore::getUserCart(std::string username){
 * Reproduce the database file from the current Products and User values
 */
 void MyDataStore::dump(std::ostream& ofile){
-    ofile << "TESTING"; 
+    ofile << "<products>\n"; 
+    std::set<Product*>::iterator itemIterator; 
+    for (itemIterator = items.begin(); itemIterator != items.end(); ++itemIterator){
+        (*itemIterator)->dump(ofile); 
+    }
+    ofile << "</products>\n";
+
+    ofile << "<users>\n";
+    std::set<User*>::iterator userIterator;
+    for (userIterator = users.begin(); userIterator != users.end(); ++userIterator){
+        (*userIterator)->dump(ofile); 
+    }
+
+    ofile << "<users>\n";
 }

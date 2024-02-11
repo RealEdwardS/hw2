@@ -2,7 +2,7 @@
 
 
 BookProduct::BookProduct(const std::string category, const std::string name, double price, int qty, std::string isbn, std::string author):
-    Product(category, name, price, qty),
+    Product(category, name, price/1.00, qty),
     isbn_(isbn),
     author_(author) 
 {
@@ -51,6 +51,6 @@ Reproduce the database file from the current Products and User values
 
 */
 void BookProduct::dump(std::ostream& os) const{
-   os << this->category_ << "\n" << this->name_ << "\n" << std::setprecision(2) << this->price_ << "\n" << this->qty_ <<  "\n" << this->isbn_ << "\n" << this->author_ << "\n";
+   os << this->category_ << "\n" << this->name_ << "\n" << std::fixed << std::setprecision(2) << this->price_ << "\n" << this->qty_ <<  "\n" << this->isbn_ << "\n" << this->author_ << "\n";
 }
 

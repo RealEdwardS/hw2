@@ -125,13 +125,13 @@ int main(int argc, char* argv[])
                     // If found searchNumber
                     else if (ss >> searchHitHumber){
                         // If the search number is invalid
-                        if (searchHitHumber < 0 || searchHitHumber >= hits.size()){
+                        if (searchHitHumber <= 0 || searchHitHumber > hits.size()){
                             cout << "Invalid request"; 
                         }
 
                         else{
                             deque<Product*> currUserCart = ds.getUserCart(username); 
-                            Product* wantedItem = hits.at(searchHitHumber);
+                            Product* wantedItem = hits.at(searchHitHumber-1);
                             currUserCart.push_back(wantedItem); 
                         }
                     }

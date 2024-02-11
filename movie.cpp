@@ -26,7 +26,7 @@ The ISBN 978-000000000-1 should be used exactly as is for the keyword entry
 */
 std::set<std::string> MovieProduct::keywords() const{
     std::set<std::string> result = parseStringToWords(this->name_);
-    result.insert(this->genre_); 
+    result.insert(convToLower(this->genre_)); 
     
     return result; 
 }

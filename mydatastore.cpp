@@ -48,6 +48,9 @@ std::vector<Product*> MyDataStore::search(std::vector<std::string>& terms, int t
 
     for (int i = 0; i < terms.size(); ++i){
         std::map<std::string, std::set<Product*>>::iterator it = mapOfKeywords.find(terms.at(i));
+        if (it == mapOfKeywords.end()){
+            continue;
+        }
         dequeOfProducts.push_back(it->second);
     }
     
@@ -68,7 +71,7 @@ std::vector<Product*> MyDataStore::search(std::vector<std::string>& terms, int t
             }
 
             else if (type == 1){
-                result = setIntersection(result, dequeOfProducts.front());
+                result = setUnion(result, dequeOfProducts.front());
             }
             
 
@@ -165,8 +168,8 @@ void MyDataStore::deleteAll(){
         delete *(itemIterator); 
     }
 
-    // std::set<User*>::iterator userIterator;
-    // for (userIterator = users.begin(); userIterator != users.end(); ++userIterator){
-    //     delete *(userIterator);
-    // }
+    std::set<User*>::iterator userIterator;
+    for (userIterator = users.begin(); userIterator != users.end(); ++userIterator){
+        delete *(userIterator);
+    }
 }

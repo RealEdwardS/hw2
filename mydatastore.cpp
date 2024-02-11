@@ -136,5 +136,5 @@ std::deque<Product*> MyDataStore::getUserCart(std::string username){
 * Reproduce the database file from the current Products and User values
 */
 void MyDataStore::dump(std::ostream& ofile){
-    // ofile << 
+    ofile << "TESTING"; 
 }

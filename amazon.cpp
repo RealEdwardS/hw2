@@ -174,24 +174,26 @@ int main(int argc, char* argv[])
                     
                     else{
                       vector<Product*> result;
-                        if (isSecond == false){
-                          //cout << "i aem ercalled " << endl;
-                          //ds.reverseCart(currUser);
-                          deque<Product*> currUserCart = ds.getUserCart(currUser); 
+                        // if (isSecond == false){
+                        //   //cout << "i aem ercalled " << endl;
+                        //   //ds.reverseCart(currUser);
+                        //   deque<Product*> currUserCart = ds.getUserCart(currUser); 
                            
-                          for (unsigned int i = 0; i < currUserCart.size()+1; ++i){
-                            result.push_back(currUserCart.front());
-                            currUserCart.pop_front();
-                          }
-                        }
+                        //   for (unsigned int i = 0; i < currUserCart.size()+1; ++i){
+                        //     result.push_back(currUserCart.front());
+                        //     currUserCart.pop_front();
+                        //   }
+                        // }
 
-                        else{
+                        //else{
                           deque<Product*> currUserCart = ds.getUserCart(currUser); 
-                          for (unsigned int i = 0; i < currUserCart.size()+1; ++i){
-                            result.push_back(currUserCart.front());
-                            currUserCart.pop_front();
+                          if (currUserCart.size() > 0){
+                            for (unsigned int i = 0; i < currUserCart.size()+1; ++i){
+                                result.push_back(currUserCart.front());
+                                currUserCart.pop_front();
+                            }
                           }
-                        }
+                        //}
 
 
 
@@ -227,28 +229,50 @@ int main(int argc, char* argv[])
                     User* currUser = ds.getUser(username, isSecond);
                     // If cannot find username
                     if (currUser == nullptr){
-                        cout << "Invalid username" << endl;
+                        cout << "\nInvalid username" << endl;
                     }
                     
                     else{
                         deque<Product*> currUserCart = ds.getUserCart(currUser);
+                        vector<Product*> remainingItems; 
                         double totalPrice = 0; 
 
+                        unsigned int originalSize = currUserCart.size(); 
                         // Go through cart
-                        for (unsigned int i = 0; i < currUserCart.size()+1; ++i){
+                        for (unsigned int i = 0; i < originalSize; ++i){
                             // If balance is good, remove money from person, subtract product qty, and pop from cart 
-                            if (totalPrice + (currUserCart.front())->getPrice() <= currUser->getBalance()){
+                            if ((totalPrice + (currUserCart.front())->getPrice() <= currUser->getBalance())&& (currUserCart.front()->getQty() > 0)){
+                                // cout << "YOUR CART SIZE BEFORE " << to_string(currUserCart.size()) << endl; 
+                                // cout << "YOU PURCHASED " << currUserCart.front()->getName() << endl; 
                                 currUser->deductAmount((currUserCart.front())->getPrice());
                                 currUserCart.front()->subtractQty(1);
-                                currUserCart.pop_front(); 
+                                currUserCart = ds.removeFrontItemFromCart(currUser); 
+                                // cout << "YOUR CART SIZE AFTER " << to_string(currUserCart.size()) << endl; 
+    
+                            }
+
+                            // If can't afford skip to next item
+                            else{
+                                // cout << "YOU DIDN'T PURCHASE " << currUserCart.front()->getName() << endl; 
+                                remainingItems.push_back(currUserCart.front()); 
+                                currUserCart = ds.removeFrontItemFromCart(currUser);
                             }
                         }
+
+                        if (remainingItems.size() > 0){
+                            ds.clearCart(currUser);
+                            for (unsigned int i = 0; i < remainingItems.size(); ++i){
+                                ds.addItem(currUser, remainingItems.at(i)); 
+                            } 
+                        }
+
                     }
                 }
 
                 else{
                     cout << "Invalid request" << endl; 
                 }
+            
             }
 
             else {

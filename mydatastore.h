@@ -47,6 +47,9 @@ class MyDataStore : public DataStore{
         User* getUser(std::string username, bool& isSecond); 
         void addItem(User* currUser, Product* currItem);
         void reverseCart(User* user); 
+        std::deque<Product*>& removeFrontItemFromCart(User* user); 
+        std::deque<Product*>& clearCart(User* user); 
+
 
         void deleteAll();
     

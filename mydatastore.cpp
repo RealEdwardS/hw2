@@ -190,3 +190,20 @@ void MyDataStore::deleteAll(){
         delete *(userIterator);
     }
 }
+
+
+std::deque<Product*>& MyDataStore::removeFrontItemFromCart(User* user){
+    // std::map<User*, std::deque<Product*>>::iterator it = this->carts.find(user);
+    // std::cout << "\nCARTS SIZE" << carts[user].size() << std::endl;
+    carts[user].pop_front();
+    // std::cout << "\nCARTS SIZE AFTER" << carts[user].size() << std::endl;
+
+    return carts[user]; 
+}
+
+std::deque<Product*>& MyDataStore::clearCart(User* user){
+
+    carts[user].clear();
+
+    return carts[user]; 
+}

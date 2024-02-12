@@ -41,7 +41,7 @@ std::string BookProduct::displayString() const{
     ss << std::fixed << std::setprecision(2) << this->price_; 
     ss >> price;
     std::string result;
-    result = this->name_ + "         \n" + "Author: " + this->author_ + " IBSN: " + this->isbn_ + "\n" + price + " " + std::to_string(this->qty_) + " left."; 
+    result = this->name_ + "         \n" + "Author: " + this->author_ + " ISBN: " + this->isbn_ + "\n" + price + " " + std::to_string(this->qty_) + " left."; 
     return result;
 } 
 

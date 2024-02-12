@@ -231,25 +231,16 @@ int main(int argc, char* argv[])
                     }
                     
                     else{
-                        deque<Product*>* currUserCart = ds.getActualUserCart(currUser);
-                        
-                        vector<Product*> currUserVectorCart; 
-                        for (unsigned int i = 0; i < currUserCart->size(); ++i){
-                          currUserVectorCart.push_back(currUserCart->front());
-                          currUserCart->pop_front();
-                        }
+                        deque<Product*> currUserCart = ds.getUserCart(currUser);
                         double totalPrice = 0; 
 
                         // Go through cart
-                        for (unsigned int i = 0; i < currUserVectorCart.size()+1; ++i){
+                        for (unsigned int i = 0; i < currUserCart.size()+1; ++i){
                             // If balance is good, remove money from person, subtract product qty, and pop from cart 
-                            if (totalPrice + (currUserVectorCart.at(i))->getPrice() <= currUser->getBalance()){
-                                currUser->deductAmount((currUserCart->front())->getPrice());
-                                currUserVectorCart.at(i)->subtractQty(1);
-                            }
-
-                            else{
-                              currUserCart->push_back(currUserVectorCart.at(i)); 
+                            if (totalPrice + (currUserCart.front())->getPrice() <= currUser->getBalance()){
+                                currUser->deductAmount((currUserCart.front())->getPrice());
+                                currUserCart.front()->subtractQty(1);
+                                currUserCart.pop_front(); 
                             }
                         }
                     }
@@ -304,7 +295,7 @@ void displayVIEWProducts(vector<Product*>& hits, bool second)
     // }
     
     for(vector<Product*>::iterator it = hits.begin(); it != hits.end(); ++it) {
-        cout << "Item " /*<< setw(3)*/ << resultNo << endl;
+        cout << "Item " << setw(3) << resultNo << endl;
         cout << (*it)->displayString() << endl;
         cout << endl;
         resultNo++;

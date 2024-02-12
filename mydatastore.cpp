@@ -142,33 +142,9 @@ std::deque<Product*> MyDataStore::getUserCart(User* wantedUser){
     std::map<User*, std::deque<Product*>>::iterator secondIt = carts.find(wantedUser);
     std::deque<Product*> userCart = secondIt->second; 
 
-    return (userCart); 
+    return userCart; 
 }
 
-std::deque<Product*>* MyDataStore::getActualUserCart(User* wantedUser){
-    // std::set<User*>::iterator it;
-    // User* wantedUser; 
-
-    // bool foundName = false;
-    // for (it = users.begin(); it != users.end(); ++it){
-    //     if ((*it)->getName() == username){
-    //         wantedUser = *it;
-    //         foundName = true; 
-    //         break;
-    //     }
-    // }
-
-    // if (foundName == false){
-    //     throw "Invalid request"; 
-    // }
-
-    // User* wantedUser = getUser(username); 
-
-    std::map<User*, std::deque<Product*>>::iterator secondIt = carts.find(wantedUser);
-    std::deque<Product*> userCart = secondIt->second; 
-
-    return &(userCart); 
-}
 /**
 * Reproduce the database file from the current Products and User values
 */

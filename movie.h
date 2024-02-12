@@ -2,6 +2,7 @@
 #define MOVIE_H
 #include <iomanip>
 #include <string>
+#include <sstream>
 #include "product.h"
 #include "util.h" 
 

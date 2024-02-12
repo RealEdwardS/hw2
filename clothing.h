@@ -1,6 +1,7 @@
 #ifndef CLOTHING_H
 #define CLOTHING_H
 #include <string>
+#include <sstream>
 #include <iomanip>
 #include "product.h"
 #include "util.h"

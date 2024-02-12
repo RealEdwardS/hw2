@@ -22,7 +22,15 @@ struct ProdNameSorter {
         return (p1->getName() < p2->getName());
     }
 };
+
+struct ProdNameSorter2 {
+    bool operator()(Product* p1, Product* p2) {
+        return false;
+    }
+};
+
 void displayProducts(vector<Product*>& hits);
+void displayVIEWProducts(vector<Product*>& hits, bool result);
 
 int main(int argc, char* argv[])
 {
@@ -70,13 +78,14 @@ int main(int argc, char* argv[])
     vector<Product*> hits; // <-- Product cart
     bool done = false;
     while(!done) {
-        cout << "\nEnter command: " << endl;
+        cout << "\nEnter command: ";// << endl;
         string line;
         getline(cin,line);
         stringstream ss(line);
         string cmd;
         if((ss >> cmd)) {
             if( cmd == "AND") {
+                cout << "\n";
                 string term;
                 vector<string> terms;
                 while(ss >> term) {
@@ -87,6 +96,7 @@ int main(int argc, char* argv[])
                 displayProducts(hits);
             }
             else if ( cmd == "OR" ) {
+              cout << "\n"; 
                 string term;
                 vector<string> terms;
                 while(ss >> term) {
@@ -98,6 +108,7 @@ int main(int argc, char* argv[])
             }
             else if ( cmd == "QUIT") {
                 string filename;
+                
                 if(ss >> filename) {
                     ofstream ofile(filename.c_str());
                     ds.dump(ofile);
@@ -112,10 +123,12 @@ int main(int argc, char* argv[])
 	    /* Add support for other commands here */
 
             else if ( cmd == "ADD"){
+              cout << "\n"; 
                 string username;
-                int searchHitHumber;
+                unsigned int searchHitHumber;
                 if (ss >> username){
-                    User* currUser = ds.getUser(username);
+                  bool isSecond = false;
+                    User* currUser = ds.getUser(username, isSecond);
 
                     // If cannot find user
                     if (currUser == nullptr){
@@ -126,7 +139,7 @@ int main(int argc, char* argv[])
                     else if (ss >> searchHitHumber){
                         // If the search number is invalid
                         if (searchHitHumber <= 0 || searchHitHumber > hits.size()){
-                            cout << "Invalid request 2"; 
+                            cout << "Invalid request"; 
                         }
 
                         else{ 
@@ -137,7 +150,7 @@ int main(int argc, char* argv[])
 
                     // If not found search number
                     else{
-                        cout << "Invalid request 3" << endl; 
+                        cout << "Invalid request" << endl; 
                     }
                 }
 
@@ -148,30 +161,61 @@ int main(int argc, char* argv[])
             }
 
             else if ( cmd == "VIEWCART"){
-                
+                cout << "\n"; 
                 string username;
                 if (ss >> username){
-                    User* currUser = ds.getUser(username); 
+                    bool isSecond = false; 
+                    User* currUser = ds.getUser(username, isSecond); 
                     // If cannot find username
                     if (currUser == nullptr){
                         cout << "Invalid username" << endl; 
                     }
 
+                    
                     else{
-                        deque<Product*> currUserCart = ds.getUserCart(username); 
-                        // cout << to_string(currUserCart.size()) << endl; 
-                        vector<Product*> result;
-                        for (int i = 0; i < currUserCart.size(); ++i){
-                            result.push_back(currUserCart.back()); 
-                            currUserCart.pop_back(); 
-                        } 
+                      vector<Product*> result;
+                        if (isSecond == false){
+                          //cout << "i aem ercalled " << endl;
+                          //ds.reverseCart(currUser);
+                          deque<Product*> currUserCart = ds.getUserCart(currUser); 
+                           
+                          for (unsigned int i = 0; i < currUserCart.size()+1; ++i){
+                            result.push_back(currUserCart.front());
+                            currUserCart.pop_front();
+                          }
+                        }
 
-                        displayProducts(result); 
+                        else{
+                          deque<Product*> currUserCart = ds.getUserCart(currUser); 
+                          for (unsigned int i = 0; i < currUserCart.size()+1; ++i){
+                            result.push_back(currUserCart.front());
+                            currUserCart.pop_front();
+                          }
+                        }
+
+
+
+                        displayVIEWProducts(result, isSecond); 
+                        // deque<Product*> currUserCart = ds.getUserCart(username); 
+                        // // cout << to_string(currUserCart.size()) << endl; 
+                        // vector<Product*> result;
+                        // // vector<Product*> finalResult;
+                        // for (unsigned int i = 0; i < currUserCart.size()+1; ++i){
+                        //     result.push_back(currUserCart.front()); 
+                        //     currUserCart.pop_front(); 
+                        // }
+
+                        // // for (int i = 0; i < result.size(); ++i){
+                        // //   finalResult.push_back(result.at(result.size()-1)); 
+                        // // }
+                        // //std::reverse(result.begin(), result.end());
+                        // displayVIEWProducts(result); 
                     }
                 }
                 
                 // If cannot get input
                 else{
+                  cout << "\n"; 
                     cout << "Invalid username"; 
                 }
             }
@@ -179,23 +223,33 @@ int main(int argc, char* argv[])
             else if ( cmd == "BUYCART"){
                 string username;
                 if (ss >> username){
-                    User* currUser = ds.getUser(username);
+                  bool isSecond = false;
+                    User* currUser = ds.getUser(username, isSecond);
                     // If cannot find username
                     if (currUser == nullptr){
                         cout << "Invalid username" << endl;
                     }
                     
                     else{
-                        deque<Product*> currUserCart = ds.getUserCart(username);
+                        deque<Product*>* currUserCart = ds.getActualUserCart(currUser);
+                        
+                        vector<Product*> currUserVectorCart; 
+                        for (unsigned int i = 0; i < currUserCart->size(); ++i){
+                          currUserVectorCart.push_back(currUserCart->front());
+                          currUserCart->pop_front();
+                        }
                         double totalPrice = 0; 
 
                         // Go through cart
-                        for (int i = 0; i < currUserCart.size(); ++i){
+                        for (unsigned int i = 0; i < currUserVectorCart.size()+1; ++i){
                             // If balance is good, remove money from person, subtract product qty, and pop from cart 
-                            if (totalPrice + (currUserCart.front())->getPrice() <= currUser->getBalance()){
-                                currUser->deductAmount((currUserCart.front())->getPrice());
-                                currUserCart.front()->subtractQty(1);
-                                currUserCart.pop_front(); 
+                            if (totalPrice + (currUserVectorCart.at(i))->getPrice() <= currUser->getBalance()){
+                                currUser->deductAmount((currUserCart->front())->getPrice());
+                                currUserVectorCart.at(i)->subtractQty(1);
+                            }
+
+                            else{
+                              currUserCart->push_back(currUserVectorCart.at(i)); 
                             }
                         }
                     }
@@ -231,4 +285,29 @@ void displayProducts(vector<Product*>& hits)
         cout << endl;
         resultNo++;
     }
+}
+
+void displayVIEWProducts(vector<Product*>& hits, bool second)
+{
+    int resultNo = 1;
+    if (hits.begin() == hits.end()) {
+    	cout << "No results found!" << endl;
+    	return;
+    }
+
+    //if (second == false){
+      std::sort(hits.begin(), hits.end(), ProdNameSorter2());
+    //}
+
+    // else{
+    //   std::sort(hits.begin(), hits.end(), ProdNameSorter());
+    // }
+    
+    for(vector<Product*>::iterator it = hits.begin(); it != hits.end(); ++it) {
+        cout << "Item " /*<< setw(3)*/ << resultNo << endl;
+        cout << (*it)->displayString() << endl;
+        cout << endl;
+        resultNo++;
+    }
+    // cout << "\n";
 }

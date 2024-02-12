@@ -2,6 +2,7 @@
 #define BOOK_H
 #include <string>
 #include <iomanip>
+#include <sstream> 
 #include "product.h"
 #include "util.h"
 

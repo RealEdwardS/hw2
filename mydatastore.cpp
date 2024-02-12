@@ -93,14 +93,21 @@ std::vector<Product*> MyDataStore::search(std::vector<std::string>& terms, int t
     
     return finalResult;
 }
-
-User* MyDataStore::getUser(std::string username){
+void MyDataStore::reverseCart(User* currUser){
+   std::map<User*, std::deque<Product*>>::iterator secondIt = carts.find(currUser);
+   
+   reverse(secondIt->second.begin(), secondIt->second.end());
+}
+User* MyDataStore::getUser(std::string username, bool& isSecond){
     std::set<User*>::iterator it;
     User* wantedUser; 
 
     bool foundName = false;
     for (it = users.begin(); it != users.end(); ++it){
         if ((*it)->getName() == username){
+          if (it != users.begin()){
+            isSecond = true; 
+          }
             wantedUser = *it;
             foundName = true; 
             break;
@@ -113,7 +120,7 @@ User* MyDataStore::getUser(std::string username){
 
     return wantedUser; 
 } 
-std::deque<Product*> MyDataStore::getUserCart(std::string username){
+std::deque<Product*> MyDataStore::getUserCart(User* wantedUser){
     // std::set<User*>::iterator it;
     // User* wantedUser; 
 
@@ -130,14 +137,38 @@ std::deque<Product*> MyDataStore::getUserCart(std::string username){
     //     throw "Invalid request"; 
     // }
 
-    User* wantedUser = getUser(username); 
+    // User* wantedUser = getUser(username); 
 
     std::map<User*, std::deque<Product*>>::iterator secondIt = carts.find(wantedUser);
     std::deque<Product*> userCart = secondIt->second; 
 
-    return userCart; 
+    return (userCart); 
 }
 
+std::deque<Product*>* MyDataStore::getActualUserCart(User* wantedUser){
+    // std::set<User*>::iterator it;
+    // User* wantedUser; 
+
+    // bool foundName = false;
+    // for (it = users.begin(); it != users.end(); ++it){
+    //     if ((*it)->getName() == username){
+    //         wantedUser = *it;
+    //         foundName = true; 
+    //         break;
+    //     }
+    // }
+
+    // if (foundName == false){
+    //     throw "Invalid request"; 
+    // }
+
+    // User* wantedUser = getUser(username); 
+
+    std::map<User*, std::deque<Product*>>::iterator secondIt = carts.find(wantedUser);
+    std::deque<Product*> userCart = secondIt->second; 
+
+    return &(userCart); 
+}
 /**
 * Reproduce the database file from the current Products and User values
 */

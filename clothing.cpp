@@ -36,7 +36,11 @@ std::set<std::string> ClothingProduct::keywords() const{
     <price> <quantity> left.
  */
 std::string ClothingProduct::displayString() const{
-    std::string result = this->name_ + "\n" + "Size: " + this->size_ + " Brand: " + this->brand_ + "\n" + std::to_string(this->price_) + " " + std::to_string(this->qty_) + " left.";
+    std::stringstream ss;
+    std::string price; 
+    ss << std::fixed << std::setprecision(2) << this->price_; 
+    ss >> price;
+    std::string result = this->name_ + "         \n" + "Size: " + this->size_ + " Brand: " + this->brand_ + "\n" + price + " " + std::to_string(this->qty_) + " left.";
     return result; 
 } 
 

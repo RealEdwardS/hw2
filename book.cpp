@@ -36,8 +36,12 @@ Author: <author> ISBN: <isbn>
 
  */
 std::string BookProduct::displayString() const{
+    std::stringstream ss;
+    std::string price;
+    ss << std::fixed << std::setprecision(2) << this->price_; 
+    ss >> price;
     std::string result;
-    result = this->name_ + "        \n" + "Author: " + this->author_ + " IBSN: " + this->isbn_ + "\n" + std::to_string(this->price_) + " " + std::to_string(this->qty_) + " left."; 
+    result = this->name_ + "         \n" + "Author: " + this->author_ + " IBSN: " + this->isbn_ + "\n" + price + " " + std::to_string(this->qty_) + " left."; 
     return result;
 } 
 
@@ -51,6 +55,6 @@ Reproduce the database file from the current Products and User values
 
 */
 void BookProduct::dump(std::ostream& os) const{
-   os << this->category_ << "\n" /*(<< std::setw(this->name_.size() + 10)*/ << this->name_ << "\n" << std::fixed << std::setprecision(2)<< this->price_ << "\n" << this->qty_ <<  "\n" << this->isbn_ << "\n" << this->author_ << "\n";
+   os << this->category_ << "\n"  << this->name_ << "\n" << std::fixed << std::setprecision(2)<< this->price_ << "\n" << this->qty_ <<  "\n" << this->isbn_ << "\n" << this->author_ << "\n";
 }
 

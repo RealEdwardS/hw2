@@ -41,7 +41,11 @@ std::set<std::string> MovieProduct::keywords() const{
  */
 
 std::string MovieProduct::displayString() const{
-    std::string result = this->name_ + "\n" + "Genre: " + this->genre_ + " Rating: " + this->rating_ + "\n" + std::to_string(this->price_) + " " + std::to_string(this->qty_) + " left.";
+    std::stringstream ss;
+    std::string price; 
+    ss << std::fixed << std::setprecision(2) << this->price_; 
+    ss >> price;
+    std::string result = this->name_ + "         \n" + "Genre: " + this->genre_ + " Rating: " + this->rating_ + "\n" + price + " " + std::to_string(this->qty_) + " left.";
     return result;
 } 
 
@@ -51,6 +55,6 @@ os << category_ << "\n" << name_ << "\n" << price_ << "\n" << qty_ << endl;
 Reproduce the database file from the current Products and User values
 */
 void MovieProduct::dump(std::ostream& os) const{
-    os << this->category_ << "\n" << std::setw(10) << this->name_ << "\n" << std::fixed << std::setprecision(2) << this->price_ << "\n" << this->qty_ << "\n" << this->genre_ << "\n" << this->rating_ << "\n";
+    os << this->category_ << "\n"  << this->name_ << std::setw(10 + (this->name_).size()) << "\n" << std::fixed << std::setprecision(2) << this->price_ << "\n" << this->qty_ << "\n" << this->genre_ << "\n" << this->rating_ << "\n";
 }
 
